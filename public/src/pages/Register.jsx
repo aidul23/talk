@@ -1,15 +1,77 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import Logo from "../assets/chat.png";
+import { registerRoute } from "../utils/APIRoutes";
 
 function Register(props) {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const toastOptions = {
+      position: "bottom-right",
+      autoClose: 8000,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark"
+  };
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    alert("form");
+    if(handleValidation()) {
+      const {username, email, password} = user;
+      const {data} = await axios.post(registerRoute, {
+        username,email,password
+      });
+
+      if(data.status === false) {
+        toast.error(data.msg, toastOptions);
+      }
+      if(data.status === true) {
+        localStorage.setItem("talk-user", JSON.stringify(data.user));
+        navigate("/");
+      }
+    }
   };
 
-  const handleChange = (e) => {};
+  const handleValidation = () => {
+    const {username, email, password, confirmPassword} = user;
+
+    if(password !== confirmPassword) {
+      toast.error("password and confrim password should be same.", toastOptions);
+      return false;
+    } else if(username.length < 3) {
+      toast.error("username must have at least 3 char.", toastOptions);
+      return false;
+    }
+    else if(password.length < 8) {
+      toast.error("password should be equal or grather than 8 char.", toastOptions);
+      return false;
+    }
+    else if(email==="") {
+      toast.error("email is required.", toastOptions);
+      return false;
+    }
+    return true;
+  }
+
+  const handleChange = (e) => {
+    const {name,value} = e.target;
+    
+    setUser((prevUser) => {
+      return {
+        ...prevUser,
+      [name]: value
+      }
+    });
+  };
 
   return (
     <>
@@ -49,6 +111,7 @@ function Register(props) {
           </span>
         </form>
       </FromContainer>
+      <ToastContainer/>
     </>
   );
 }

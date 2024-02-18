@@ -1,15 +1,18 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 require("dotenv").config();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5001;
 const DB_URL = process.env.DB_URL;
 
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
+app.use("/api/auth", userRoutes);
 
 mongoose.connect(DB_URL, {
     useNewUrlParser: true,
