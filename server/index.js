@@ -1,0 +1,25 @@
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+
+const app = express();
+require("dotenv").config();
+const PORT = process.env.PORT || 3001;
+const DB_URL = process.env.DB_URL;
+
+app.use(cors());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
+mongoose.connect(DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("DB is connected");
+}).catch((err) => {
+    console.log(err.message);
+});
+
+app.listen(PORT, () => {
+    console.log(`server is running on http://localhost:${PORT}`);
+});
