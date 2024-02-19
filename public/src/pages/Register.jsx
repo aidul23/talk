@@ -9,13 +9,15 @@ import { registerRoute } from "../utils/APIRoutes";
 
 function Register(props) {
   const navigate = useNavigate();
+
   const toastOptions = {
-      position: "bottom-right",
-      autoClose: 8000,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark"
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
   };
+
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -25,16 +27,19 @@ function Register(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if(handleValidation()) {
-      const {username, email, password} = user;
+    if (handleValidation()) {
+      const { username, email, password } = user;
       const {data} = await axios.post(registerRoute, {
-        username,email,password
+        username,
+        email,
+        password,
       });
 
-      if(data.status === false) {
+      if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
-      if(data.status === true) {
+      
+      if (data.status === true) {
         localStorage.setItem("talk-user", JSON.stringify(data.user));
         navigate("/");
       }
@@ -42,34 +47,38 @@ function Register(props) {
   };
 
   const handleValidation = () => {
-    const {username, email, password, confirmPassword} = user;
+    const { username, email, password, confirmPassword } = user;
 
-    if(password !== confirmPassword) {
-      toast.error("password and confrim password should be same.", toastOptions);
+    if (password !== confirmPassword) {
+      toast.error(
+        "password and confrim password should be same.",
+        toastOptions
+      );
       return false;
-    } else if(username.length < 3) {
+    } else if (username.length < 3) {
       toast.error("username must have at least 3 char.", toastOptions);
       return false;
-    }
-    else if(password.length < 8) {
-      toast.error("password should be equal or grather than 8 char.", toastOptions);
+    } else if (password.length < 8) {
+      toast.error(
+        "password should be equal or grather than 8 char.",
+        toastOptions
+      );
       return false;
-    }
-    else if(email==="") {
+    } else if (email === "") {
       toast.error("email is required.", toastOptions);
       return false;
     }
     return true;
-  }
+  };
 
   const handleChange = (e) => {
-    const {name,value} = e.target;
-    
+    const { name, value } = e.target;
+
     setUser((prevUser) => {
       return {
         ...prevUser,
-      [name]: value
-      }
+        [name]: value,
+      };
     });
   };
 
@@ -111,7 +120,7 @@ function Register(props) {
           </span>
         </form>
       </FromContainer>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }
