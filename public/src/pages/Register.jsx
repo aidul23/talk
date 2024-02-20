@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +17,12 @@ function Register(props) {
     draggable: true,
     theme: "dark",
   };
+
+  useEffect(() => {
+    if(localStorage.getItem('talk-user')) {
+      navigate('/');
+    }
+  },[]);
 
   const [user, setUser] = useState({
     username: "",
