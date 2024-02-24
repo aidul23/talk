@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "../assets/chat.png";
 
-function Contacts({ contacts, currentUser }) {
+function Contacts({ contacts, currentUser, changeChat }) {
   const [currUserName, setCurrUserName] = useState(undefined);
   const [currUserImage, setCurrUserImage] = useState(undefined);
   const [currSelected, setCurrSelected] = useState(undefined);
@@ -14,26 +14,30 @@ function Contacts({ contacts, currentUser }) {
     }
   }, [currentUser]);
 
-  const changeCurrChat = (index, contact) => {};
+  const changeCurrChat = (index, contact) => {
+    setCurrSelected(index);
+    changeChat(contact);
+  };
 
   console.log(contacts, currentUser);
 
   return (
     <>
-      {currUserName && (
+      {currUserName && currUserImage && (
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
             <h3>talk</h3>
           </div>
-          <div className="contacts">
-            {contacts.map((contact, index) => {
+          <div className="contacts-list">
+            {contacts?.map((contact, index) => {
               return (
                 <div
                   className={`contact ${
                     index === currSelected ? "selected" : ""
                   }`}
                   key={index}
+                  onClick={() => changeCurrChat(index, contact)}
                 >
                   <div className="avatar">
                     <img
@@ -48,6 +52,7 @@ function Contacts({ contacts, currentUser }) {
               );
             })}
           </div>
+          
           <div className="current-user">
             <div className="avatar">
               <img
@@ -83,7 +88,7 @@ const Container = styled.div`
       text-transform: uppercase;
     }
   }
-  .contacts {
+  .contacts-list {
     display: flex;
     flex-direction: column;
     align-items: center;

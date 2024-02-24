@@ -3,44 +3,61 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Contacts from "../components/Contacts";
+import Welcome from "../components/Welcome";
 import { allUsersRoute } from "../utils/APIRoutes";
 
 function Chat(props) {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState([]);
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentChat, setCurrentChat] = useState(undefined);
 
-    const [currentUser, setCurrentUser] = useState(undefined);
+  useEffect(() => {
+    if (!localStorage.getItem("talk-user")) {
+      navigate("/login");
+    } else {
+      const user = JSON.parse(localStorage.getItem("talk-user"));
+      setCurrentUser(user);
+    }
+  }, []);
 
-    useEffect(() => {
-        if(!localStorage.getItem("talk-user")) {
-            navigate("/login");
-        } else {
-            const user = JSON.parse(localStorage.getItem("talk-user"));
-            setCurrentUser(user);
-        }
-    },[]);
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.isAvatarImageSet) {
+        axios
+          .get(`${allUsersRoute}/${currentUser._id}`)
+          .then((response) => {
+            console.log("data", response.data);
+            setContacts(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
+      } else {
+        navigate("/setAvatar");
+      }
+    }
+  }, [currentUser]);
 
-    useEffect(() => {
-        if(currentUser) {
-            if(currentUser.isAvatarImageSet) {
-                const data = axios.get(`${allUsersRoute}/${currentUser._id}`);
-                setContacts(data.data);
-            } else {
-                navigate("/setAvatar");
-            }
-        }
-    },[currentUser]);
+  const handleChatChange = (chat) => {
+    setCurrentChat(chat);
+  };
 
-    return (
-        <>
-            <Container>
-                <div className="container">
-                    <Contacts contacts={contacts} currentUser={currentUser}/>
-                </div>
-            </Container>
-        </>
-    );
+  return (
+    <>
+      <Container>
+        <div className="container">
+          <Contacts
+            contacts={contacts}
+            currentUser={currentUser}
+            changeChat={handleChatChange}
+          />
+          <Welcome currentUser={currentUser} />
+        </div>
+      </Container>
+    </>
+  );
 }
 
 const Container = styled.div`
