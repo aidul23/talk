@@ -10,8 +10,17 @@ This is a real-time chat application using a web socket where one can create an 
 </p>
 Keeper built with [React](https://react.dev/), [NodeJS](https://nodejs.org/en), [MongoDB](https://www.mongodb.com/), [Socket.io](https://socket.io/)
 ## Preview
-![Screenshot 2024-02-25 174417](https://github.com/aidul23/talk/assets/35846452/cb1ebdaf-c7f6-4bcb-a2c8-a1a53fa24d72)
-[screen-capture.webm](https://github.com/aidul23/talk/assets/35846452/9dd7cb90-ccb2-4073-9956-ab03f1de4eed)
+<p align="center">
+<!--   <a href="https://blog.nurriyad.xyz" target="_blank">
+    <img width="1090" src="./public/app-preview.png">
+    <br>
+    Live Demo
+  </a> -->
+    <img width="1090" src="./public/App-preview-1.png">
+    <video width="1090" controls autoplay>
+      <source src="./public/screen-capture.webm" type="video/mp4">
+    </video>
+</p>
 
 ## Build Setup
 
