@@ -112,7 +112,7 @@ const FromContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #131324;
+  background-color: #1B262C;
   .brand {
     display: flex;
     align-items: center;
@@ -130,24 +130,24 @@ const FromContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: #00000076;
+    background-color: #0F4C75;
     border-radius: 2rem;
     padding: 3rem 5rem;
     input {
       background-color: transparent;
       padding: 1rem;
-      border: 0.1rem solid #4e0eff;
+      border: 0.1rem solid #1B262C;
       border-radius: 0.4rem;
       color: white;
       width: 100%;
       font-size: 1rem;
       &:focus {
-        border: 0.1rem solid #997af0;
+        border: 0.1rem solid #3282B8;
         outline: none;
       }
     }
     button {
-      background-color: #997af0;
+      background-color: #1B262C;
       color: white;
       padding: 1rem 2rem;
       border: none;
@@ -158,13 +158,13 @@ const FromContainer = styled.div`
       text-transform: uppercase;
       transition: 0.5s ease-in-out;
       &:hover {
-        background-color: #4e0eff;
+        background-color: #3282B8;
       }
     }
     span {
       color: white;
       a {
-        color: #4e0eff;
+        color: #1B262C;
         text-decoration: none;
         font-weight: bold;
       }

@@ -1,13 +1,15 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ChatInput from "../components/ChatInput";
 import Logout from "../components/Logout";
 import { getAllMessagesRoute, sendMessageRoute } from "../utils/APIRoutes";
 import { v4 as uuidv4 } from "uuid";
 
-function ChatContainer({ currentChat, currentUser }) {
+function ChatContainer({ currentChat, currentUser, socket }) {
   const [messages, setMessages] = useState([]);
+  const [arrivalMsg, setArrivalMsg] = useState(null);
+  const scrollRef = useRef();
 
   const getAllMsg = async () => {
     const data = await JSON.parse(localStorage.getItem("talk-user"));
@@ -29,7 +31,31 @@ function ChatContainer({ currentChat, currentUser }) {
       to: currentChat?._id,
       message: msg,
     });
+    socket.current.emit("send-msg", {
+      to: currentChat?._id,
+      from: currentUser?._id,
+      message: msg
+    });
+    const msgs = [...messages];
+    msgs.push({fromSelf: true, message: msg});
+    setMessages(msgs);
   };
+
+  useEffect(() => {
+    if(socket.current) {
+      socket.current.on("msg-recieve", (msg) => {
+        setArrivalMsg({fromSelf: false, message: msg})
+      });
+    }
+  });
+
+  useEffect(() => {
+    arrivalMsg && setMessages((prev) => [...prev, arrivalMsg]);
+  },[arrivalMsg]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({behaviour: "smooth"});
+  },[messages]);
 
   console.log("msg",messages);
   return (
@@ -53,7 +79,7 @@ function ChatContainer({ currentChat, currentUser }) {
           <div className="chat-messages">
             {messages.map((message) => {
               return (
-                <div key={uuidv4()}>
+                <div ref={scrollRef} key={uuidv4()}>
                   <div
                     className={`message ${
                       message.fromSelf ? "sended" : "recieved"
@@ -85,7 +111,7 @@ const Container = styled.div`
   .chat-header {
     display: flex;
     justify-content: space-between;
-    background-color: #0d0d30;
+    background-color: #3282B8;
     align-items: center;
     padding: 0 2rem;
     .user-details {
@@ -136,13 +162,13 @@ const Container = styled.div`
     .sended {
       justify-content: flex-end;
       .content {
-        background-color: #4f04ff21;
+        background-color: #0F4C75;
       }
     }
     .recieved {
       justify-content: flex-start;
       .content {
-        background-color: #9900ff20;
+        background-color: #3282B8;
       }
     }
   }

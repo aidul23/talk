@@ -74,7 +74,7 @@ const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
-  background-color: #080420;
+  background-color: #0F4C75;
   .brand {
     display: flex;
     align-items: center;
@@ -125,12 +125,12 @@ const Container = styled.div`
       }
     }
     .selected {
-      background-color: #9a86f3;
+      background-color: #BBE1FA;
     }
   }
 
   .current-user {
-    background-color: #0d0d30;
+    background-color: #3282B8;
     display: flex;
     justify-content: center;
     align-items: center;
