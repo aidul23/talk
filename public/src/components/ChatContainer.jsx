@@ -85,6 +85,7 @@ const Container = styled.div`
   .chat-header {
     display: flex;
     justify-content: space-between;
+    background-color: #0d0d30;
     align-items: center;
     padding: 0 2rem;
     .user-details {
