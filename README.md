@@ -12,14 +12,9 @@ Keeper built with [React](https://react.dev/), [NodeJS](https://nodejs.org/en), 
 
 ## Preview
 <p align="center">
-<!--   <a href="https://blog.nurriyad.xyz" target="_blank">
-    <img width="1090" src="./public/app-preview.png">
-    <br>
-    Live Demo
-  </a> -->
     <img width="1090" src="public/public/App-preview-1.png"> 
     <video width="1090" controls autoplay>
-      <source src="./public/screen-capture.webm" type="video/mp4">
+      <source src="public/public/screen-capture.webm" type="video/mp4">
     </video>
 </p>
 
