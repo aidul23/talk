@@ -1,33 +1,77 @@
-import React from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Logout from "../components/Logout"
+import ChatInput from "../components/ChatInput";
+import Logout from "../components/Logout";
+import { getAllMessagesRoute, sendMessageRoute } from "../utils/APIRoutes";
+import { v4 as uuidv4 } from "uuid";
 
-function ChatContainer({currentChat}) {
-    return (
-        <>
-            {
-                currentChat && (
-                    <Container>
-            <div className='chat-header'>
-                <div className='user-details'>
-                    <div className='avatar'>
-                    <img
-                      src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
-                      alt="avatar"
-                    />
-                    </div>
-                    <div className='username'>
-                        <h3>{currentChat.username}</h3>
-                    </div>
-                </div>
-                <Logout/>
+function ChatContainer({ currentChat, currentUser }) {
+  const [messages, setMessages] = useState([]);
+
+  const getAllMsg = async () => {
+    const data = await JSON.parse(localStorage.getItem("talk-user"));
+    const response = await axios.post(getAllMessagesRoute, {
+      from: data?._id,
+      to: currentChat?._id,
+    });
+    setMessages(response.data.projectedMessages);
+    console.log("respose",response.data);
+  };
+
+  useEffect(() => {
+    getAllMsg();
+  }, [currentChat]);
+
+  const handleSendMsg = async (msg) => {
+    await axios.post(sendMessageRoute, {
+      from: currentUser?._id,
+      to: currentChat?._id,
+      message: msg,
+    });
+  };
+
+  console.log("msg",messages);
+  return (
+    <>
+      {currentChat && (
+        <Container>
+          <div className="chat-header">
+            <div className="user-details">
+              <div className="avatar">
+                <img
+                  src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
+                  alt="avatar"
+                />
+              </div>
+              <div className="username">
+                <h3>{currentChat.username}</h3>
+              </div>
             </div>
-            <div className='chat-input'></div>
-    </Container>
-                )
-            }
-        </>
-    );
+            <Logout />
+          </div>
+          <div className="chat-messages">
+            {messages.map((message) => {
+              return (
+                <div key={uuidv4()}>
+                  <div
+                    className={`message ${
+                      message.fromSelf ? "sended" : "recieved"
+                    }`}
+                  >
+                    <div className="content ">
+                      <p>{message.message}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <ChatInput handleSendMsg={handleSendMsg} />
+        </Container>
+      )}
+    </>
+  );
 }
 
 const Container = styled.div`

@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
+const messagesRoute = require("./routes/messagesRoute");
 
 const app = express();
 require("dotenv").config();
@@ -13,6 +14,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.use("/api/auth", userRoutes);
+app.use("/api/messages", messagesRoute);
 
 mongoose.connect(DB_URL, {
     useNewUrlParser: true,
