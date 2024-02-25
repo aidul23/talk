@@ -1,3 +1,3 @@
 # Talk
 
-# This is a chat applications build using React, NodeJS and MongoDB
+## This is a chat application build using React, NodeJS, and MongoDB
