@@ -17,7 +17,7 @@ Keeper built with [React](https://react.dev/), [NodeJS](https://nodejs.org/en), 
     <br>
     Live Demo
   </a> -->
-    <img width="1090" src="./public/public/App-preview-1.png"> 
+    <img width="1090" src="public/public/App-preview-1.png"> 
     <video width="1090" controls autoplay>
       <source src="./public/screen-capture.webm" type="video/mp4">
     </video>
