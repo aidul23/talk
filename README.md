@@ -13,9 +13,6 @@ Keeper built with [React](https://react.dev/), [NodeJS](https://nodejs.org/en), 
 ## Preview
 <p align="center">
     <img width="1090" src="public/public/App-preview-1.png"> 
-    <video width="1090" controls autoplay>
-      <source src="public/public/screen-capture.webm" type="video/mp4">
-    </video>
 </p>
 
 ## Build Setup
