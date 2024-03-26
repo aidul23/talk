@@ -14,13 +14,13 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: "https://talk-loi1-frontend.vercel.app",
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://talk-loi1-frontend.vercel.app",
+//     methods: ["GET", "POST", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
 
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messagesRoute);
@@ -44,7 +44,8 @@ const server = app.listen(process.env.PORT, () => {
 const io = socket(server, {
   cors: {
     origin: "https://talk-loi1-frontend.vercel.app",
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   },
 });
