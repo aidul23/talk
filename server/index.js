@@ -13,14 +13,6 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: "https://talk-loi1-frontend.vercel.app",
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
 
 mongoose
   .connect(DB_URL, {
@@ -44,6 +36,8 @@ const server = app.listen(PORT || 5001, () => {
 const io = require("socket.io")(server, {
   cors: {
     origin: "https://talk-loi1-frontend.vercel.app",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   },
 });
