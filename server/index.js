@@ -11,19 +11,21 @@ require("dotenv").config();
 const PORT = 5001;
 const DB_URL = process.env.DB_URL;
 
-app.use(
-  cors({
-    origin: "https://talk-loi1-frontend.vercel.app",
-    methods: ["POST", "GET"],
-    credentials: true,
-    headers: "*"
-  })
-);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messagesRoute);
+
+app.use(
+  cors({
+    origin: "https://talk-loi1-frontend.vercel.app/",
+    methods: ["POST", "GET"],
+    credentials: true,
+    headers: "*"
+  })
+);
 
 mongoose
   .connect(DB_URL, {
@@ -43,7 +45,7 @@ const server = app.listen(process.env.PORT || PORT, () => {
 
 const io = socket(server, {
   cors: {
-    origin: "https://talk-loi1-frontend.vercel.app",
+    origin: "https://talk-loi1-frontend.vercel.app/",
     methods: ["POST", "GET"],
     credentials: true,
     headers: "*"
