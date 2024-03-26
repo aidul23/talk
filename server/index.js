@@ -13,6 +13,9 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.get('/', function (req, res) {
+  res.send("Hello");
+});
 
 mongoose
   .connect(DB_URL, {
@@ -42,8 +45,6 @@ const io = require("socket.io")(server, {
   },
 });
 
-// methods: ["POST", "GET", "OPTIONS"],
-// allowedHeaders: ["Content-Type", "Authorization"],
 global.onlineUsres = new Map();
 
 io.on("connection", (socket) => {
