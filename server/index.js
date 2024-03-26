@@ -13,9 +13,6 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', function (req, res) {
-  res.send("Hello");
-});
 
 mongoose
   .connect(DB_URL, {
