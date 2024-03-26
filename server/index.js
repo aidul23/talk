@@ -15,17 +15,17 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://talk-loi1-frontend.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
+
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messagesRoute);
 
-app.use(
-  cors({
-    origin: "https://talk-loi1-frontend.vercel.app/",
-    methods: ["POST", "GET"],
-    credentials: true,
-    headers: "*"
-  })
-);
 
 mongoose
   .connect(DB_URL, {
@@ -45,10 +45,9 @@ const server = app.listen(process.env.PORT || PORT, () => {
 
 const io = socket(server, {
   cors: {
-    origin: "https://talk-loi1-frontend.vercel.app/",
+    origin: "https://talk-loi1-frontend.vercel.app",
     methods: ["POST", "GET"],
-    credentials: true,
-    headers: "*"
+    credentials: true
   },
 });
 
