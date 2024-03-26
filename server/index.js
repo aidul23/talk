@@ -22,6 +22,7 @@ app.use(express.json());
 //   res.setHeader('Access-Control-Allow-Credentials', true);
 //   next();
 // });
+app.use(cors());
 
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messagesRoute);
