@@ -7,7 +7,7 @@ const socket = require("socket.io");
 
 const app = express();
 require("dotenv").config();
-const PORT = process.env.PORT || 5001;
+const PORT = 5001;
 const DB_URL = process.env.DB_URL;
 
 app.use(cors());
@@ -26,7 +26,7 @@ mongoose.connect(DB_URL, {
     console.log(err.message);
 });
 
-const server = app.listen(PORT, () => {
+const server = app.listen(process.env.PORT || PORT, () => {
     console.log(`server is running on http://localhost:${PORT}`);
 });
 

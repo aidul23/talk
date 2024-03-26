@@ -38,12 +38,16 @@ function Login(props) {
         password,
       });
 
+      console.log(data);
+
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
       
       if (data.status === true) {
+        console.log(data.status);
         localStorage.setItem("talk-user", JSON.stringify(data.user));
+        console.log(data);
         navigate("/");
       }
     }
