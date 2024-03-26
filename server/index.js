@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://talk-loi1-frontend.vercel.app/",
+    origin: "https://talk-loi1-frontend.vercel.app",
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -43,7 +43,7 @@ const server = app.listen(PORT || 5001, () => {
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "https://talk-loi1-frontend.vercel.app/",
+    origin: "https://talk-loi1-frontend.vercel.app",
     credentials: true,
   },
 });
