@@ -3,27 +3,24 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const messagesRoute = require("./routes/messagesRoute");
-const socket = require("socket.io");
 
 const app = express();
 
 require("dotenv").config();
-const PORT = 5001;
+const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.use(
-//   cors({
-//     origin: "https://talk-loi1-frontend.vercel.app",
-//     methods: ["GET", "POST", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
-
-app.use("/api/auth", userRoutes);
-app.use("/api/messages", messagesRoute);
+app.use(
+  cors({
+    origin: "https://talk-loi1-frontend.vercel.app/",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 mongoose
   .connect(DB_URL, {
@@ -37,19 +34,22 @@ mongoose
     console.log(err.message);
   });
 
-const server = app.listen(process.env.PORT, () => {
-  console.log(`server is running`);
+app.use("/api/auth", userRoutes);
+app.use("/api/messages", messagesRoute);
+
+const server = app.listen(PORT || 5001, () => {
+  console.log(`server is running ${PORT}`);
 });
 
-const io = socket(server, {
+const io = require("socket.io")(server, {
   cors: {
-    origin: "https://talk-loi1-frontend.vercel.app",
-    methods: ["POST", "GET", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "https://talk-loi1-frontend.vercel.app/",
     credentials: true,
   },
 });
 
+// methods: ["POST", "GET", "OPTIONS"],
+// allowedHeaders: ["Content-Type", "Authorization"],
 global.onlineUsres = new Map();
 
 io.on("connection", (socket) => {
