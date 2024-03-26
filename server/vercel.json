@@ -1,29 +1,15 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "*.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-          "src": "/api/auth/(.*)",
-          "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-          "headers": {
-            "Access-Control-Allow-Origin": "https://talk-loi1-frontend.vercel.app",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization"
-          }
-        },
-        {
-          "src": "/api/messages/(.*)",
-          "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-          "headers": {
-            "Access-Control-Allow-Origin": "https://talk-loi1-frontend.vercel.app",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization"
-          }
-        }
-      ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "./server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "destination": "/"
+    }
+  ]
 }
