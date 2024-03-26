@@ -37,8 +37,8 @@ mongoose
     console.log(err.message);
   });
 
-const server = app.listen(process.env.PORT || PORT, () => {
-  console.log(`server is running on http://localhost:${PORT}`);
+const server = app.listen(process.env.PORT, () => {
+  console.log(`server is running`);
 });
 
 const io = socket(server, {
