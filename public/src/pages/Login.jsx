@@ -33,23 +33,26 @@ function Login(props) {
     event.preventDefault();
     if (handleValidation()) {
       const { username, password } = user;
-      const {data} = await axios.post(loginRoute, {
-        username,
-        password,
-      });
-
-      console.log(data);
-
-      if (data.status === false) {
-        toast.error(data.msg, toastOptions);
+      try {
+        const {data} = await axios.post(loginRoute, {
+          username,
+          password,
+        });
+  
+        if (data.status === false) {
+          toast.error(data.msg, toastOptions);
+        }
+        
+        if (data.status === true) {
+          console.log(data.status);
+          localStorage.setItem("talk-user", JSON.stringify(data.user));
+          console.log(data);
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error);
       }
       
-      if (data.status === true) {
-        console.log(data.status);
-        localStorage.setItem("talk-user", JSON.stringify(data.user));
-        console.log(data);
-        navigate("/");
-      }
     }
   };
 
