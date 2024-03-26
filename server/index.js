@@ -16,6 +16,7 @@ app.use(
     origin: "https://talk-loi1-frontend.vercel.app",
     methods: ["POST", "GET"],
     credentials: true,
+    headers: "*"
   })
 );
 app.use(express.urlencoded({ extended: true }));
@@ -45,6 +46,7 @@ const io = socket(server, {
     origin: "https://talk-loi1-frontend.vercel.app",
     methods: ["POST", "GET"],
     credentials: true,
+    headers: "*"
   },
 });
 
