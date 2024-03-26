@@ -15,13 +15,7 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'https://talk-loi1-frontend.vercel.app');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
+
 app.use(cors());
 
 app.use("/api/auth", userRoutes);
