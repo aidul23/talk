@@ -10,6 +10,8 @@ import { loginRoute } from "../utils/APIRoutes";
 function Login(props) {
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
+
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,

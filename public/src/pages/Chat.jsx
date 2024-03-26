@@ -11,6 +11,8 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 function Chat(props) {
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
+
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);

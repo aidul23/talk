@@ -12,6 +12,8 @@ function SetAvatar(props) {
   const api = `https://api.multiavatar.com/4645646`;
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
+
   const [avatars, setAvatars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
