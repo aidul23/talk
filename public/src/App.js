@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Chat from './pages/Chat';
@@ -8,7 +7,6 @@ import SetAvatar from './pages/SetAvatar';
 
 
 function App(props) {
-  axios.defaults.withCredentials = true;
   
   return (
     <BrowserRouter>
