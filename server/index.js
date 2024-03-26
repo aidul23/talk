@@ -42,7 +42,7 @@ const server = app.listen(process.env.PORT || PORT, () => {
 
 const io = socket(server, {
   cors: {
-    origin: ["https://talk-loi1-frontend.vercel.app/login"],
+    origin: "https://talk-loi1-frontend.vercel.app",
     methods: ["POST", "GET"],
     credentials: true,
   },
