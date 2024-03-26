@@ -13,7 +13,7 @@ const DB_URL = process.env.DB_URL;
 
 app.use(
   cors({
-    origin: ["https://talk-loi1-frontend.vercel.app/login"],
+    origin: "https://talk-loi1-frontend.vercel.app",
     methods: ["POST", "GET"],
     credentials: true,
   })
