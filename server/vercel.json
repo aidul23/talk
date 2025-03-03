@@ -12,10 +12,7 @@
       "dest": "/index.js",
       "methods": ["GET","POST","OPTIONS"],
       "headers": {
-        "Access-Control-Allow-Origin": "https://talk-loi1-frontend.vercel.app",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true"
+        "Access-Control-Allow-Origin": "*"
       }
     }
   ]
