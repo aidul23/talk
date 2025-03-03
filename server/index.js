@@ -13,7 +13,8 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(cors({origin: "https://t.co/sVzPDW9Ytw", credentials: true}))
+// app.use(cors({origin: "https://t.co/sVzPDW9Ytw", credentials: true}))
+app.use(cors({ origin: "https://talk-loi1-frontend.vercel.app", credentials: true }));
 
 mongoose
   .connect(DB_URL, {
