@@ -83,14 +83,20 @@ module.exports.login = async (req, res, next) => {
 module.exports.setAvatar = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const avatarImage = req.body.image;
-    const userData = await User.findByIdAndUpdate(userId, {
-      isAvatarImageSet: true,
-      avatarImage,
+    // Check if the user has uploaded an avatar or not
+    const userData = await User.findById(userId);
+    
+    if (!userData.isAvatarImageSet) {
+      // Return the default avatar URL if no custom avatar is set
+      userData.avatarImage = "/profile-avatar.png"; // Static path to the default avatar image
+    }
+
+    return res.json({
+      isSet: userData.isAvatarImageSet,
+      image: userData.avatarImage,
     });
-    return res.json({isSet: userData.isAvatarImageSet, image: userData.avatarImage});
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
