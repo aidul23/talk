@@ -55,7 +55,7 @@ function SetAvatar() {
           </div>
           <div className="avatar-upload">
             <img
-              src={user?.avatarImage || "/public/public/profile-avatar.png"}
+              src={user?.avatarImage || "../public/profile-avatar.png"}
               alt="avatar preview"
               className="avatar-preview"
             />
