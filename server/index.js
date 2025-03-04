@@ -93,7 +93,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // CORS configuration for Express routes
-const allowedOrigins = ["https://talk-loi1-frontend.vercel.app"];  // Specify your frontend domain
+const allowedOrigins = ["https://talk-loi1-frontend.vercel.app","https://api.multiavatar.com"];  // Specify your frontend domain
 
 const corsOptions = {
   origin: function (origin, callback) {
