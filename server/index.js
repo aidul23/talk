@@ -110,7 +110,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));  // Enable CORS middleware
 
-
 // Routes
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messagesRoute);
