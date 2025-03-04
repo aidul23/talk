@@ -14,13 +14,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // app.use(cors({origin: "https://t.co/sVzPDW9Ytw", credentials: true}))
-app.options("*", cors());
+const allowedOrigins = ["https://talk-loi1-frontend.vercel.app"];
+
 app.use(cors({
-  origin: "https://talk-loi1-frontend.vercel.app",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.options("*", cors());
 
 mongoose
   .connect(DB_URL, {
