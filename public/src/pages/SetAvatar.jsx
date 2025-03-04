@@ -63,16 +63,16 @@ function SetAvatar(props) {
     try {
       const data = [];
       for (let i = 0; i < 4; i++) {
-        const image = await axios.get(
-          `${api}/${Math.round(Math.random() * 1000)}`
+        const response = await axios.get(
+          `https://api.multiavatar.com/${Math.random() * 1000}`,
+          { responseType: "text" } // Ensure we get the SVG text
         );
-        const buffer = new Buffer(image.data);
-        data.push(buffer.toString("base64"));
+        data.push(response.data); // Directly store the SVG text
       }
       setAvatars(data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching avatars:", error);
     }
   };
 
@@ -92,22 +92,20 @@ function SetAvatar(props) {
             <h1>Pick an Avatar as your profile picture</h1>
           </div>
           <div className="avatars">
-            {avatars.map((avatar, index) => {
-              return (
-                <div
-                  className={`avatar ${
-                    selectedAvatar === index ? "selected" : ""
-                  }`}
-                >
-                  <img
-                    src={`data:image/svg+xml;base64,${avatar}`}
-                    alt="avatar"
-                    key={avatar}
-                    onClick={() => setSelectedAvatar(index)}
-                  />
-                </div>
-              );
-            })}
+          {avatars.map((avatar, index) => {
+            return (
+              <div
+                key={index} // ✅ Move key here
+                className={`avatar ${selectedAvatar === index ? "selected" : ""}`}
+                onClick={() => setSelectedAvatar(index)}
+              >
+                <img
+                  src={`data:image/svg+xml,${encodeURIComponent(avatar)}`} // ✅ Fix SVG embedding
+                  alt="avatar"
+                />
+              </div>
+            );
+          })}
           </div>
           <button className="submit-btn" onClick={setProfilePicture}>
             Set profile Picture
