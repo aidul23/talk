@@ -14,7 +14,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // app.use(cors({origin: "https://t.co/sVzPDW9Ytw", credentials: true}))
-app.use(cors({ origin: "https://talk-loi1-frontend.vercel.app", credentials: true }));
+app.use(cors({
+  origin: "https://talk-loi1-frontend.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 mongoose
   .connect(DB_URL, {

@@ -39,6 +39,10 @@ function Login(props) {
         const {data} = await axios.post(loginRoute, {
           username,
           password,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
         });
   
         if (data.status === false) {
