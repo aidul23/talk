@@ -26,7 +26,7 @@ function SetAvatar() {
       const user = JSON.parse(localStorage.getItem("talk-user"));
 
       // Set the default avatar (in case the user hasn't uploaded a custom one)
-      const avatarImage = user.avatarImage || "/default-avatar.png";
+      const avatarImage = user.avatarImage || "/profile-avatar.png";
 
       // Here, you can proceed to save the user's avatar (which will be the default image).
       // Update the user in your database with the avatarImage (this can be skipped if you're not uploading).
