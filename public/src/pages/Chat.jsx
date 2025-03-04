@@ -7,6 +7,7 @@ import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import { allUsersRoute, host } from "../utils/APIRoutes";
+import { toast } from "react-toastify";
 
 function Chat() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function Chat() {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  // Add loading state for fetching contacts
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("talk-user"));
@@ -33,6 +35,11 @@ function Chat() {
       // Establish socket connection when user is set
       socket.current = io(host);
 
+      socket.current.on("connect_error", (err) => {
+        console.error("Socket connection error:", err.message);
+        toast.error("Failed to connect to server. Please try again later.");
+      });
+
       // Emit the add-user event
       socket.current.emit("add-user", currentUser._id);
 
@@ -46,6 +53,7 @@ function Chat() {
   useEffect(() => {
     if (currentUser) {
       if (currentUser.isAvatarImageSet) {
+        setIsLoading(true);  // Start loading state
         axios
           .get(`${allUsersRoute}/${currentUser._id}`)
           .then((response) => {
@@ -53,6 +61,10 @@ function Chat() {
           })
           .catch((error) => {
             console.error("Error fetching contacts:", error);
+            toast.error("Failed to load contacts. Please try again later.");
+          })
+          .finally(() => {
+            setIsLoading(false);  // End loading state
           });
       } else {
         navigate("/setAvatar");
@@ -71,6 +83,7 @@ function Chat() {
           contacts={contacts}
           currentUser={currentUser}
           changeChat={handleChatChange}
+          isLoading={isLoading}  // Pass loading state to Contacts component
         />
         {isLoaded && currentChat === undefined ? (
           <Welcome currentUser={currentUser} />
