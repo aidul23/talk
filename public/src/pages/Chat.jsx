@@ -8,9 +8,8 @@ import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import { allUsersRoute, host } from "../utils/APIRoutes";
 
-function Chat(props) {
+function Chat() {
   const navigate = useNavigate();
-
   axios.defaults.withCredentials = true;
 
   const socket = useRef();
@@ -20,21 +19,29 @@ function Chat(props) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("talk-user")) {
+    const user = JSON.parse(localStorage.getItem("talk-user"));
+    if (!user) {
       navigate("/login");
     } else {
-      const user = JSON.parse(localStorage.getItem("talk-user"));
       setCurrentUser(user);
       setIsLoaded(true);
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
-    if(currentUser) {
+    if (currentUser) {
+      // Establish socket connection when user is set
       socket.current = io(host);
+
+      // Emit the add-user event
       socket.current.emit("add-user", currentUser._id);
+
+      // Cleanup socket connection when component unmounts
+      return () => {
+        socket.current.disconnect();
+      };
     }
-  },[currentUser])
+  }, [currentUser]);
 
   useEffect(() => {
     if (currentUser) {
@@ -42,41 +49,40 @@ function Chat(props) {
         axios
           .get(`${allUsersRoute}/${currentUser._id}`)
           .then((response) => {
-            console.log("data", response.data);
             setContacts(response.data);
           })
           .catch((error) => {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching contacts:", error);
           });
       } else {
         navigate("/setAvatar");
       }
     }
-  }, [currentUser]);
+  }, [currentUser, navigate]);
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
 
   return (
-    <>
-      <Container>
-        <div className="container">
-          <Contacts
-            contacts={contacts}
+    <Container>
+      <div className="container">
+        <Contacts
+          contacts={contacts}
+          currentUser={currentUser}
+          changeChat={handleChatChange}
+        />
+        {isLoaded && currentChat === undefined ? (
+          <Welcome currentUser={currentUser} />
+        ) : (
+          <ChatContainer
+            currentChat={currentChat}
             currentUser={currentUser}
-            changeChat={handleChatChange}
+            socket={socket}
           />
-          {
-            isLoaded && currentChat === undefined ? (
-              <Welcome currentUser={currentUser} />
-            ) : ( 
-              <ChatContainer currentChat={currentChat} currentUser={currentUser} socket={socket}/>
-            )
-          }
-        </div>
-      </Container>
-    </>
+        )}
+      </div>
+    </Container>
   );
 }
 
@@ -88,11 +94,12 @@ const Container = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #BBE1FA;
+  background-color: #bbe1fa;
+
   .container {
     height: 85vh;
     width: 85vw;
-    background-color: #1B262C;
+    background-color: #1b262c;
     display: grid;
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {

@@ -81,6 +81,7 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const messagesRoute = require("./routes/messagesRoute");
 const http = require("http");
+const socketIo = require("socket.io");
 
 const app = express();
 require("dotenv").config();
@@ -92,7 +93,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // CORS configuration for Express routes
-const allowedOrigins = ["https://talk-loi1-frontend.vercel.app"]; // Add your frontend URL here
+const allowedOrigins = ["https://talk-loi1-frontend.vercel.app"];  // Specify your frontend domain
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -102,7 +103,7 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
+  credentials: true,  // Allows cookies to be sent with requests
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
@@ -129,14 +130,13 @@ mongoose
 // Create HTTP server for Socket.io
 const server = http.createServer(app);
 
-// Set up Socket.io with correct CORS options
-const io = require("socket.io")(server, {
+// Socket.io with CORS enabled
+const io = socketIo(server, {
   cors: {
-    origin: "https://talk-loi1-frontend.vercel.app",  // Allow only the specified frontend URL
-    methods: ["GET", "POST", "OPTIONS"],
+    origin: "https://talk-loi1-frontend.vercel.app",  // Frontend URL allowed to connect
+    methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-    allowEIO3: false  // This is important if you're using cookies for authentication
+    credentials: true,  // Important if you're using cookies for authentication
   },
 });
 
@@ -158,7 +158,6 @@ io.on("connection", (socket) => {
 
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-recieve", data.message);  // Send message to recipient
-      console.log(`Message sent to ${data.to}`);
     }
   });
 
@@ -168,7 +167,6 @@ io.on("connection", (socket) => {
     onlineUsers.forEach((value, key) => {
       if (value === socket.id) {
         onlineUsers.delete(key);  // Remove user from online users map
-        console.log(`User ${key} is now offline`);
       }
     });
   });
@@ -178,3 +176,4 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
