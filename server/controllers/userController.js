@@ -88,7 +88,7 @@ module.exports.setAvatar = async (req, res, next) => {
     
     if (!userData.isAvatarImageSet) {
       // Return the default avatar URL if no custom avatar is set
-      userData.avatarImage = "/profile-avatar.png"; // Static path to the default avatar image
+      userData.avatarImage = "public/public/profile-avatar.png"; // Static path to the default avatar image
     }
 
     return res.json({
