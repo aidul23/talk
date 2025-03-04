@@ -64,7 +64,7 @@ function SetAvatar(props) {
       const data = [];
       for (let i = 0; i < 4; i++) {
         const response = await axios.get(
-          `https://talk-api-drab.vercel.app/api/auth/proxy-avatar?avatarId=${Math.random() * 1000}`,
+          `https://api.multiavatar.com/${Math.random() * 1000}`,
           { responseType: "text" } // Ensure we get the SVG text
         );
         data.push(response.data); // Directly store the SVG text

@@ -6,6 +6,6 @@ router.post("/register",register);
 router.post("/login",login);
 router.post("/setAvatar/:id",setAvatar);
 router.get("/allusers/:id",getAllUsers);
-router.get('/proxy-avatar', proxyAvatar);
+// router.get('/proxy-avatar', proxyAvatar);
 
 module.exports = router;

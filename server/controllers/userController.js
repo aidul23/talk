@@ -58,27 +58,27 @@ module.exports.login = async (req, res, next) => {
   }
 };
 
-module.exports.proxyAvatar = async (req, res, next) => {
-  try {
-    const { avatarId } = req.query;
+// module.exports.proxyAvatar = async (req, res, next) => {
+//   try {
+//     const { avatarId } = req.query;
 
-    if (!avatarId) {
-      return res.status(400).json({ error: 'Avatar ID is required' });
-    }
+//     if (!avatarId) {
+//       return res.status(400).json({ error: 'Avatar ID is required' });
+//     }
 
-    // Fetch avatar image from MultiAvatar API
-    const response = await axios.get(`https://api.multiavatar.com/${avatarId}`, {
-      headers: { 'Content-Type': 'image/svg+xml' },
-    });
+//     // Fetch avatar image from MultiAvatar API
+//     const response = await axios.get(`https://api.multiavatar.com/${avatarId}`, {
+//       headers: { 'Content-Type': 'image/svg+xml' },
+//     });
 
-    // Return the SVG data as the response
-    res.setHeader('Content-Type', 'image/svg+xml');
-    res.send(response.data);
-  } catch (error) {
-    console.error('Error fetching avatar:', error);
-    res.status(500).json({ error: 'Failed to fetch avatar' });
-  }
-};
+//     // Return the SVG data as the response
+//     res.setHeader('Content-Type', 'image/svg+xml');
+//     res.send(response.data);
+//   } catch (error) {
+//     console.error('Error fetching avatar:', error);
+//     res.status(500).json({ error: 'Failed to fetch avatar' });
+//   }
+// };
 
 module.exports.setAvatar = async (req, res, next) => {
   try {
