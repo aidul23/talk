@@ -67,7 +67,7 @@ function Chat() {
             setIsLoading(false);  // End loading state
           });
       } else {
-        navigate("/setAvatar");
+        navigate("/");
       }
     }
   }, [currentUser, navigate]);
