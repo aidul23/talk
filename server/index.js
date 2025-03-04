@@ -135,7 +135,8 @@ const io = require("socket.io")(server, {
     origin: "https://talk-loi1-frontend.vercel.app",  // Allow only the specified frontend URL
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,  // This is important if you're using cookies for authentication
+    credentials: true,
+    allowEIO3: false  // This is important if you're using cookies for authentication
   },
 });
 
