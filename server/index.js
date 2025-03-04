@@ -91,8 +91,8 @@ const DB_URL = process.env.DB_URL;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// CORS configuration
-const allowedOrigins = ["https://talk-loi1-frontend.vercel.app"]; // Add all your frontend URLs here
+// CORS configuration for Express routes
+const allowedOrigins = ["https://talk-loi1-frontend.vercel.app"]; // Add your frontend URL here
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -129,13 +129,13 @@ mongoose
 // Create HTTP server for Socket.io
 const server = http.createServer(app);
 
-// Set up Socket.io
+// Set up Socket.io with correct CORS options
 const io = require("socket.io")(server, {
   cors: {
-    origin: "https://talk-loi1-frontend.vercel.app",  // Allow your frontend domain here
+    origin: "https://talk-loi1-frontend.vercel.app",  // Allow only the specified frontend URL
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
+    credentials: true,  // This is important if you're using cookies for authentication
   },
 });
 
